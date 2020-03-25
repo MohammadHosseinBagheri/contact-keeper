@@ -1,6 +1,12 @@
 const express = require('express')
-
+const connectDB = require('./config/db')
 const app = express()
+
+//Connect to database
+connectDB()
+
+// init midleware
+app.use(express.json({extended:false}))
 
 //Define Routes
 app.use('/api/users' , require('./routes/users'))
