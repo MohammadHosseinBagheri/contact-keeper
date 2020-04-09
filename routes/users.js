@@ -29,7 +29,7 @@ router.post('/' , [
     try {
         let user = await User.findOne({email})
         if(user){
-            res.status(400).json({msg:'this email already in use.'})
+            res.status(400).json({msg:'This email already in use.'})
         } 
 
         user = new User({

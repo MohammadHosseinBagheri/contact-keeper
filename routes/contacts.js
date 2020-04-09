@@ -36,14 +36,14 @@ router.post('/' , auth , [
     }
 
 
-    const {name , lastname , email , phonenumber ,type} = req.body
+    const {name , lastname , email , phone ,type} = req.body
 
     try {
         let newContact = new Contact({
             name ,
             lastname ,
             email ,
-            phonenumber ,
+            phone ,
             type,
             user : req.user.id
         })

@@ -1,0 +1,4 @@
+{
+    "mongoURI":"mongodb+srv://darkalpha:12011378@contactkeeper-nk0kn.mongodb.net/test?retryWrites=true&w=majority"
+    ,"jwtSecret":"darkalpha"
+}
