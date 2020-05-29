@@ -1,84 +1,86 @@
-import React , {useState , useContext , useEffect} from 'react'
-import AuthContext from '../../Context/auth/authContext'
-import AlertContext from '../../Context/alert/alertContext'
+import React, { useState, useContext, useEffect } from 'react';
+import AuthContext from '../../context/auth/authContext';
+import AlertContext from '../../context/alert/alertContext';
 
-const Login = (props) => {
+const Login = props => {
+  const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
 
-    const alertContext = useContext(AlertContext)
-    const authContext = useContext(AuthContext)
+  const { setAlert } = alertContext;
+  const { login, error, clearErrors, isAuthenticated } = authContext;
 
-    const {setAlert} = alertContext
-    const {login , error , clearErrors , isAuthenticated} = authContext
-
-    useEffect(()=>{
-        if(isAuthenticated) {
-            props.history.push('/')
-        }
-        if(error === 'User with this Email doesnt exist') {
-            setAlert(error , 'danger')
-            clearErrors()
-        }
-
-        // eslint-disable-next-line
-    } , [error , isAuthenticated , props.history])
-
-    const [user , setUser] = useState({
-        email:'',
-        password:''
-    })
-
-    const { email , password} = user
-
-
-    const onChange = e => {
-        setUser({...user , [e.target.name]:e.target.vlaue})
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push('/');
     }
 
-    const onSubmit = e => {
-        e.preventDefault()
-        if(email === '' || password === '' ) {
-            setAlert('Please fill all fields' , 'danger')
-        } else {
-            login({
-                email ,
-                password
-            })
-        }
+    if (error === 'Invalid Credentials') {
+      setAlert(error, 'danger');
+      clearErrors();
     }
+    // eslint-disable-next-line
+  }, [error, isAuthenticated, props.history]);
 
-    return (
-        <div className = 'form-container'>
-            <h1>
-                Account <span className='text-primary'> Login </span>
-            </h1>
-            <form onSubmit={onSubmit}>
-                <div className='form-group'>
-                    <label htmlFor='email'>Email Address</label>
-                    <input 
-                        type='email' 
-                        name='email' 
-                        vlaue={email} 
-                        onChange={onChange} 
-                    />
-                </div>
-                <div className='form-group'>
-                    <label htmlFor='password'>Password</label>
-                    <input 
-                        type='password' 
-                        name='password' 
-                        vlaue={password} 
-                        onChange={onChange} 
-                    />
-                </div>
-                <input 
-                    type='submit' 
-                    vlaue="Login" 
-                    className='btn btn-primary btn-block'
-                />
-            </form>
-            
+  const [user, setUser] = useState({
+    email: '',
+    password: ''
+  });
+
+  const { email, password } = user;
+
+  const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
+
+  const onSubmit = e => {
+    e.preventDefault();
+    if (email === '' || password === '') {
+      setAlert('Please fill in all fields', 'danger');
+    } else {
+      login({
+        email,
+        password
+      });
+    }
+  };
+
+  return (
+    <div className='form-container'>
+      <h1>
+        Account <span className='text-primary'>Login</span>
+      </h1>
+      <form autoComplete="off" onSubmit={onSubmit}>
+        <div className='form-group'>
+          <input
+            autoComplete="off"
+            id='email'
+            type='email'
+            name='email'
+            value={email}
+            onChange={onChange}
+            required
+            placeholder='Email Address'
+          />
         </div>
-    )
-}
+        <div className='form-group'>
 
-export default Login
+          <input
+            autoComplete="off"
+            id='password'
+            type='password'
+            name='password'
+            value={password}
+            onChange={onChange}
+            required
+            placeholder='Password'
+          />
+        </div>
+        <input
+          type='submit'
+          value='Login'
+          className='btn btn-primary btn-block'
+        />
+      </form>
+    </div>
+  );
+};
+
+export default Login;
